@@ -1,1 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For You 😄</title>
 
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  text-align:center;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  overflow:hidden;
+}
+.screen{display:none;padding:40px 20px;}
+.active{display:block;}
+
+button{
+  padding:14px 22px;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+  margin:10px;
+  cursor:pointer;
+}
+
+.primary{background:#ff4d6d;color:white;}
+.secondary{background:white;}
+
+#denyBtn{position:relative;}
+.flash{font-size:26px;font-weight:bold;}
+
+.heart{
+  position:fixed;
+  top:-20px;
+  font-size:20px;
+  animation:fall 4s linear infinite;
+}
+@keyframes fall{to{transform:translateY(110vh);}}
+</style>
+</head>
+
+<body>
+
+<!-- AUDIO -->
+<audio id="soft" loop src="music_soft.mp3"></audio>
+<audio id="funnyMusic" src="music_funny.mp3"></audio>
+<audio id="boing" src="boing.mp3"></audio>
+
+<!-- Screen 1 -->
+<div class="screen active" id="s1">
+<h1>Happy Propose Day 💌</h1>
+<p>Not a serious proposal 😄</p>
+<button class="primary" onclick="start()">Start ▶️</button>
+</div>
+
+<!-- Screen 2 -->
+<div class="screen" id="s2">
+<h2>Reasons I Like You ✨</h2>
+<p id="reason">Tap reveal 👇</p>
+<button class="primary" id="revealBtn" onclick="showReason()">Reveal</button>
+<button onclick="next('s3')">Enough ego boost 😌</button>
+</div>
+
+<!-- Screen 3 -->
+<div class="screen" id="s3">
+<h2>Accept compliment? 😌</h2>
+<button class="primary" onclick="next('s4')">Accept</button>
+<button id="denyBtn">Deny 🙄</button>
+</div>
+
+<!-- Screen 4 -->
+<div class="screen" id="s4">
+<h1>You are appreciated 💛</h1>
+<p>Not proposal. Only appreciation.</p>
+
+<button class="primary"
+onclick="window.open('https://instagram.com/parmod_sharma184','_blank')">
+Send meme 📩
+</button>
+</div>
+
+<script>
+const soft=document.getElementById("soft");
+const funnyMusic=document.getElementById("funnyMusic");
+const boing=document.getElementById("boing");
+
+function start(){
+  soft.volume=0.4;
+  soft.play();
+  next('s2');
+}
+
+function next(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+let i=0;
+
+function showReason(){
+  const el=document.getElementById("reason");
+  const btn=document.getElementById("revealBtn");
+
+  if(i===0){
+    el.innerText="💛 You are always very nice to me";
+  }
+
+  else if(i===1){
+    el.innerText="🌻 I feel appreciated talking to you";
+  }
+
+  else if(i===2){
+    soft.pause();
+    funnyMusic.play();
+
+    el.className="flash";
+    el.innerText="💸 I want a sugar mommy";
+
+    setTimeout(()=>{
+      el.className="";
+      el.innerText="😂 kidding — broke life";
+      funnyMusic.pause();
+      soft.play();
+    },800);   // faster joke timing
+  }
+
+  else if(i===3){
+    el.innerText="✨ You are special. No debate allowed.";
+    btn.style.display="none";
+  }
+
+  i++;
+}
+
+const deny=document.getElementById("denyBtn");
+
+deny.addEventListener("mouseover",()=>{
+  const x=Math.random()*240-120;
+  const y=Math.random()*160-80;
+  deny.style.transform=`translate(${x}px,${y}px)`;
+  boing.play();
+});
+
+function hearts(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+}
+setInterval(hearts,400);
+</script>
+
+</body>
+</html>
