@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Not A Serious Proposal 😄</title>
+
+<style>
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
+  text-align:center;
+  overflow:hidden;
+}
+
+.screen {
+  display:none;
+  padding:40px 20px;
+}
+
+.active {
+  display:block;
+}
+
+button {
+  padding:14px 22px;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  margin:10px;
+}
+
+.primary {
+  background:#ff4d6d;
+  color:white;
+}
+
+.secondary {
+  background:white;
+}
+
+#denyBtn {
+  position:relative;
+}
+
+.flash {
+  font-size:24px;
+  font-weight:bold;
+}
+
+.heart {
+  position:fixed;
+  top:-20px;
+  font-size:20px;
+  animation: fall 4s linear infinite;
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6a9b1a6e0b.mp3">
+</audio>
+
+<audio id="boing">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3a4f9b9d1d.mp3">
+</audio>
+
+<audio id="funny">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3">
+</audio>
+
+<audio id="cash">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_2c0a0b5f3c.mp3">
+</audio>
+
+<!-- Screen 1 -->
+<div class="screen active" id="s1">
+  <h1>Happy Propose Day 💌</h1>
+  <h3>Relax, not a scary proposal 😄</h3>
+  <p>Just something small to make you smile</p>
+  <button class="primary" onclick="start()">Continue ➜</button>
+</div>
+
+<!-- Screen 2 -->
+<div class="screen" id="s2">
+  <h2>Reasons I Like You ✨</h2>
+  <p id="reason">Click to reveal 👇</p>
+  <button class="primary" onclick="showReason()">Reveal</button>
+  <button onclick="next('s3')">Enough ego boost 😌</button>
+</div>
+
+<!-- Screen 3 -->
+<div class="screen" id="s3">
+  <h2>Accept compliment? 😌</h2>
+  <button class="primary" onclick="next('s4')">Accept</button>
+  <button id="denyBtn">Deny 🙄</button>
+</div>
+
+<!-- Screen 4 -->
+<div class="screen" id="s4">
+  <h1>You are appreciated 💛</h1>
+
+  <p>
+    Not a proposal.<br>
+    Just appreciation.<br><br>
+    Mission: send meme 😌
+  </p>
+
+  <button class="primary"
+    onclick="window.open('https://instagram.com/parmod_sharma184','_blank')">
+    Open Chat 📩
+  </button>
+</div>
+
+<script>
+const bg = document.getElementById("bgMusic");
+const boing = document.getElementById("boing");
+const funny = document.getElementById("funny");
+const cash = document.getElementById("cash");
+
+function start(){
+  bg.volume = 0.5;
+  bg.play();
+  next('s2');
+}
+
+function next(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+let i = 0;
+
+function showReason(){
+  const el = document.getElementById("reason");
+
+  if(i === 0){
+    el.innerText = "💛 You are always very nice to me";
+  }
+  else if(i === 1){
+    el.innerText = "🌻 I feel appreciated talking to you";
+  }
+  else if(i === 2){
+    el.className="flash";
+    el.innerText = "💸 I want a sugar mommy";
+    cash.currentTime = 0;
+    cash.play();
+
+    setTimeout(()=>{
+      el.className="";
+      el.innerText = "😂 kidding, inflation too high";
+      funny.currentTime = 0;
+      funny.play();
+    }, 1600);
+  }
+  else{
+    el.innerText = "✨ You are special. No argument allowed.";
+  }
+
+  i++;
+}
+
+const deny = document.getElementById("denyBtn");
+
+deny.addEventListener("mouseover", ()=>{
+  const x = Math.random()*240 - 120;
+  const y = Math.random()*160 - 80;
+  deny.style.transform = `translate(${x}px,${y}px)`;
+  boing.currentTime = 0;
+  boing.play();
+});
+
+function hearts(){
+  const h = document.createElement("div");
+  h.className="heart";
+  h.innerText="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration = 3 + Math.random()*3 + "s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+}
+
+setInterval(hearts,400);
+</script>
+
+</body>
+</html>
